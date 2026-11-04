@@ -33,3 +33,19 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+// {
+//   "id": 0,
+//   "firstName": "TestAdmin2026",
+//   "lastName": "Employee2026",
+//   "username": "admin_test_2026",
+//   "email": "admin_test_2026@example.com",
+//   "phoneNumber": "098765432",
+//   "password": "Admin@123456",
+//   "confirmPassword": "Admin@123456",
+//   "profile": "",
+//   "role": "ADMIN",
+//   "status": "ACTIVE"
+// }

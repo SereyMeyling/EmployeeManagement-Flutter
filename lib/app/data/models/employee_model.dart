@@ -1,38 +1,57 @@
-/// Employees are backed by the admin user-management endpoints.
-/// Fields follow the BaseUserReq schema shown in Swagger.
 class EmployeeModel {
   final int? id;
-  final String userAccountId;
-  final String? shopId;
-  final String? deviceId;
+  final String firstName;
+  final String lastName;
+  final String username;
+  final String email;
+  final String phoneNumber;
+  final String? password;
+  final String? confirmPassword;
+  final String? profile;
+  final String role;
   final String status;
-  final int? outletId;
 
   EmployeeModel({
     this.id,
-    required this.userAccountId,
-    this.shopId,
-    this.deviceId,
+    required this.firstName,
+    required this.lastName,
+    required this.username,
+    required this.email,
+    required this.phoneNumber,
+    this.password,
+    this.confirmPassword,
+    this.profile,
+    this.role = 'USER',
     this.status = 'ACTIVE',
-    this.outletId,
   });
 
-  factory EmployeeModel.fromJson(Map<String, dynamic> j) => EmployeeModel(
-        id: (j['id'] as num?)?.toInt(),
-        userAccountId:
-            (j['userAccountId'] ?? j['phoneNumber'] ?? j['username'] ?? '').toString(),
-        shopId: j['shopId']?.toString(),
-        deviceId: j['deviceId']?.toString(),
-        status: (j['status'] ?? 'ACTIVE').toString(),
-        outletId: (j['outletId'] as num?)?.toInt(),
-      );
+  factory EmployeeModel.fromJson(Map<String, dynamic> json) {
+    return EmployeeModel(
+      id: (json['id'] as num?)?.toInt(),
+      firstName: (json['firstName'] ?? '').toString(),
+      lastName: (json['lastName'] ?? '').toString(),
+      username: (json['username'] ?? '').toString(),
+      email: (json['email'] ?? '').toString(),
+      phoneNumber: (json['phoneNumber'] ?? '').toString(),
+      profile: json['profile']?.toString(),
+      role: (json['role'] ?? 'USER').toString(),
+      status: (json['status'] ?? 'ACTIVE').toString(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        'id': id ?? 0,
-        'userAccountId': userAccountId,
-        'shopId': shopId ?? '',
-        'deviceId': deviceId ?? '',
-        'status': status,
-        'outletId': outletId ?? 0,
-      };
+  Map<String, dynamic> toJson({bool includePassword = false}) {
+    return {
+      'id': id ?? 0,
+      'firstName': firstName,
+      'lastName': lastName,
+      'username': username,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      if (includePassword) 'password': password ?? '',
+      if (includePassword) 'confirmPassword': confirmPassword ?? '',
+      'profile': profile ?? '',
+      'role': role,
+      'status': status,
+    };
+  }
 }

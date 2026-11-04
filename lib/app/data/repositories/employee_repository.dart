@@ -11,31 +11,49 @@ abstract class EmployeeRepository {
 
 class EmployeeRepositoryImpl implements EmployeeRepository {
   final DioClient _client;
+
   EmployeeRepositoryImpl(this._client);
 
+  // READ
   @override
   Future<List<EmployeeModel>> getEmployees() async {
-    // status=ALL includes deleted users, so ask for ACTIVE/non-deleted ones.
-    final data = await _client.post(ApiConstants.employeeList, data: {
-      'id': 0,
-      'userAccountId': '',
-      'shopId': '',
-      'deviceId': '',
-      'status': '',
-      'outletId': 0,
-    });
-    return DioClient.extractList(data).map(EmployeeModel.fromJson).toList();
+    final data = await _client.post(
+      ApiConstants.employeeList,
+    );
+
+    return DioClient.extractList(data)
+        .map((json) => EmployeeModel.fromJson(json))
+        .toList();
   }
 
+  // CREATE
   @override
-  Future<void> createEmployee(EmployeeModel e) =>
-      _client.post(ApiConstants.employeeCreate, data: e.toJson());
+  Future<void> createEmployee(EmployeeModel e) async {
+    await _client.post(
+      ApiConstants.employeeCreate,
+      data: e.toJson(includePassword: true),
+    );
+  }
 
+  // UPDATE
   @override
-  Future<void> updateEmployee(EmployeeModel e) =>
-      _client.post(ApiConstants.employeeUpdate, data: e.toJson());
+  Future<void> updateEmployee(EmployeeModel e) async {
+    await _client.post(
+      ApiConstants.employeeUpdate,
+      data: e.toJson(
+        includePassword: e.password != null && e.password!.isNotEmpty,
+      ),
+    );
+  }
 
+  // DELETE
   @override
-  Future<void> deleteEmployee(int id) =>
-      _client.post(ApiConstants.employeeDelete, data: {'id': id});
+  Future<void> deleteEmployee(int id) async {
+    await _client.post(
+      ApiConstants.employeeDelete,
+      data: {
+        'id': id,
+      },
+    );
+  }
 }

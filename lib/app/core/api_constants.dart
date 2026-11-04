@@ -10,8 +10,16 @@ class ApiConstants {
 
   // Products
   static const String productList = '/api/app/product/list';
+  static const String productCreate = '/api/app/product/create';
+  static const String productUpdate = '/api/app/product/update';
+  static const String productDelete = '/api/app/product/delete';
+
+// Product Categories
+  static const String categoryList = '/api/app/product/category/list';
+  static const String categoryCreate = '/api/app/product/category/create';
 
   // Employees (managed through admin user management)
+
   static const String employeeList = '/api/app/admin/user/list';
   static const String employeeCreate = '/api/app/admin/user/create';
   static const String employeeUpdate = '/api/app/admin/user/update';
